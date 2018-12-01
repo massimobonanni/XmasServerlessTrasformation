@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace SCP.Functions
+﻿namespace SCP.Core
 {
     public static class Constants
     {
@@ -11,6 +7,7 @@ namespace SCP.Functions
 
 
         public const string LetterReceiverClientFunction = "LetterReceiver";
+        public const string EventReceiverClientFunction = "EventReceiver";
         public const string LetterManagerOrchestratorFunction = "LetterManager";
 
         public const string RetrieveChildActivityFunction = "RetrieveChild";

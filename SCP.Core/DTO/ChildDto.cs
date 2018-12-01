@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace SCP.Functions.DTO
+﻿namespace SCP.Core.DTO
 {
     public class ChildDto
     {

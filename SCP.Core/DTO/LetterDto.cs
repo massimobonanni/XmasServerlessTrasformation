@@ -1,9 +1,7 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System;
+using Newtonsoft.Json;
 
-namespace SCP.Functions.DTO
+namespace SCP.Core.DTO
 {
     public class LetterDto
     {
