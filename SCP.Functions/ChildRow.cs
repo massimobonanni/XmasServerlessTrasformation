@@ -9,14 +9,14 @@ namespace SCP.Functions
     {
         public ChildRow()
         {
-            
+
         }
 
         public ChildRow(string childId) : base("Children", childId)
         {
             this.ChildId = childId;
         }
-        public string ChildId { get; private set; }
+        public string ChildId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public int Goodness { get; set; }

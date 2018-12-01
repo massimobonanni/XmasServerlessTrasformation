@@ -12,12 +12,12 @@ namespace SCP.Functions
             
         }
 
-        public GiftRow(string childId) : base("Gifts", childId)
+        public GiftRow(string childId) : base("Gifts", Guid.NewGuid().ToString())
         {
             this.ChildId = childId;
         }
 
-        public string ChildId { get; private set; }
+        public string ChildId { get; set; }
         public string GiftBrand { get; set; }
         public string GiftName { get; set; }
         public bool IsOrdered { get; set; }

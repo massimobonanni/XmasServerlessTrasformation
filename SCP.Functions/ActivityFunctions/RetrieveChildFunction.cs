@@ -41,7 +41,7 @@ namespace SCP.Functions.ActivityFunctions
                     child.ChildId = childRow.ChildId;
                     child.ChildLastName = childRow.LastName;
                     child.CurrentLetter = letter;
-                    child.GoodnessCoefficient = childRow.Goodness;
+                    child.Goodness = childRow.Goodness;
                 }
             }
             catch (Exception ex)

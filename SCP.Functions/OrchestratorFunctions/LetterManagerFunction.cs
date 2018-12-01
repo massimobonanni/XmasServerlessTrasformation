@@ -26,13 +26,13 @@ namespace SCP.Functions.OrchestratorFunctions
 
             child.CurrentLetter = letter;
 
-            if (child.GoodnessCoefficient >= 5)
+            if (child.Goodness >= 5)
             {
                 await context.CallActivityAsync(Constants.OrderGiftActivityFunction, child);
             }
             else
             {
-                await context.CallActivityAsync(Constants.SendMailToSupportActivityFunction, child);
+                await context.CallActivityAsync(Constants.SendMailToSupportActivityFunction, (context.InstanceId, child));
                 var approvedGiftEvent = context.WaitForExternalEvent<bool>(Constants.GiftApprovedEvent);
                 var rejectedGiftEvent = context.WaitForExternalEvent<bool>(Constants.GiftRejectedEvent);
 

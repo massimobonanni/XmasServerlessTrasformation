@@ -36,14 +36,14 @@ namespace Microsoft.WindowsAzure.Storage.Table
             TableOperation operation = TableOperation.Insert(entity);
             var result=await table.ExecuteAsync(operation);
             
-            return result.HttpStatusCode==200;
+            return result.HttpStatusCode>=200 && result.HttpStatusCode<=299;
         }
         public static async Task<bool> UpdateAsync(this CloudTable table, TableEntity entity)
         {
             TableOperation operation = TableOperation.Replace(entity);
             var result=await table.ExecuteAsync(operation);
             
-            return result.HttpStatusCode==200;
+            return result.HttpStatusCode >= 200 && result.HttpStatusCode <= 299;
         }
     }
 }

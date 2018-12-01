@@ -15,7 +15,12 @@ namespace SCP.Core.DTO
         public string GiftName { get; set; }
         [JsonProperty("giftBrand")]
         public string GiftBrand { get; set; }
-        [JsonProperty("sentTimestamp")]
-        public DateTime SentTimestamp { get; set; }
+
+        [JsonProperty("sentTimestamp")] public DateTime SentTimestamp { get; set; } = DateTime.Now;
+
+        public override string ToString()
+        {
+            return $"{nameof(ChildId)}={ChildId}, {nameof(ChildFirstName)}={ChildFirstName}, {nameof(ChildLastName)}={ChildLastName}, {nameof(GiftName)}={GiftName}, {nameof(GiftBrand)}={GiftBrand}, ";
+        }
     }
 }

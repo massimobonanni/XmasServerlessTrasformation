@@ -2,8 +2,8 @@
 {
     public static class Constants
     {
-        public const string GiftApprovedEvent = "GifApproved";
-        public const string GiftRejectedEvent = "GifRejected";
+        public const string GiftApprovedEvent = "GiftApproved";
+        public const string GiftRejectedEvent = "GiftRejected";
 
 
         public const string LetterReceiverClientFunction = "LetterReceiver";

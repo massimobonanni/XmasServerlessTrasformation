@@ -27,7 +27,7 @@ namespace SCP.Functions.ClientFunctions
 
             log.LogInformation($"EventReceiver --> Event {eventName} received for instance {instanceId}!");
 
-            await starter.RaiseEventAsync(instanceId, eventName, null);
+            await starter.RaiseEventAsync(instanceId, eventName, true);
 
             return starter.CreateCheckStatusResponse(req, instanceId);
         }
