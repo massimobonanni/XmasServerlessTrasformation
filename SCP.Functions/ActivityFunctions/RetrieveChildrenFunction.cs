@@ -8,11 +8,12 @@ using Microsoft.Extensions.Logging;
 using Microsoft.WindowsAzure.Storage.Table;
 using SCP.Core;
 using SCP.Core.DTO;
+using SCP.Functions.Extensions;
 using TableAttribute = Microsoft.Azure.WebJobs.TableAttribute;
 
 namespace SCP.Functions.ActivityFunctions
 {
-    public static class RetrieveChildFunction
+    public static class RetrieveChildrenFunction
     {
         [FunctionName(Constants.RetrieveChildActivityFunction)]
         public static async Task<ChildDto> RetrieveChild([ActivityTrigger] LetterDto letter,
@@ -36,12 +37,8 @@ namespace SCP.Functions.ActivityFunctions
 
                 if (childRow != null)
                 {
-                    child = new ChildDto();
-                    child.ChildFirstName = childRow.FirstName;
-                    child.ChildId = childRow.ChildId;
-                    child.ChildLastName = childRow.LastName;
+                    child = childRow.ToChildDto();
                     child.CurrentLetter = letter;
-                    child.Goodness = childRow.Goodness;
                 }
             }
             catch (Exception ex)

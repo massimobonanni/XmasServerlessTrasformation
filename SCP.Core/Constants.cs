@@ -15,6 +15,6 @@
         public const string SendMailToSupportActivityFunction = "SendMailToSupport";
         public const string RejectGiftActivityFunction = "RejectGift";
         public const string EvaluateChildFunction = "EvaluateChild";
-
+        public const string RetrieveChildrenInfoFunction = "RetriveChildrenInfo";
     }
 }
