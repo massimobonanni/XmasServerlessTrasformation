@@ -26,7 +26,7 @@ namespace SCP.Functions.Functions
             {
                 var reportDate = DateTime.Now;
 
-                using (var reportBlob = reportBinder.Bind<TextWriter>(new BlobAttribute($"orders/{reportDate:yyyyMMddHHmmss}.rep")))
+                using (var reportBlob = reportBinder.Bind<TextWriter>(new BlobAttribute($"reports/{reportDate:yyyyMMddHHmmss}.rep")))
                 {
                     reportBlob.WriteLine($"ChildId;Gift Name;Gift Brand");
 
@@ -34,6 +34,7 @@ namespace SCP.Functions.Functions
                     {
                         log.LogInformation($"{gift}");
                         reportBlob.WriteLine($"{gift.ChildId};{gift.GiftName};{gift.GiftBrand}");
+                        gift.IsOrdered = true;
                     }
                 }
 
