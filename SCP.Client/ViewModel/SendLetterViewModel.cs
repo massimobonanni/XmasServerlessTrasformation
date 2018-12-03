@@ -9,9 +9,9 @@ using SCP.Core.DTO;
 
 namespace SCP.Client.ViewModel
 {
-    public class EvaluateChildViewModel : ViewModelBase
+    public class SendLetterViewModel : ViewModelBase
     {
-        public EvaluateChildViewModel(IApiClient apiClient)
+        public SendLetterViewModel(IApiClient apiClient)
         {
             this.apiClient = apiClient;
         }
@@ -37,18 +37,18 @@ namespace SCP.Client.ViewModel
         }
 
 
-        private RelayCommand _SubmitEvaluationCommand;
+        private RelayCommand _SubmitLetterCommand;
 
-        public RelayCommand SubmitEvaluationCommand
+        public RelayCommand SubmitLetterCommand
         {
             get
             {
-                if (_SubmitEvaluationCommand == null)
+                if (_SubmitLetterCommand == null)
                 {
-                    _SubmitEvaluationCommand = new RelayCommand(SubmitEvaluationExecuteAsync, CanSubmitEvaluationExecute);
+                    _SubmitLetterCommand = new RelayCommand(SubmitLetterExecuteAsync, CanSubmitLetterExecute);
                 }
 
-                return _SubmitEvaluationCommand;
+                return _SubmitLetterCommand;
             }
         }
 
@@ -60,7 +60,7 @@ namespace SCP.Client.ViewModel
             {
                 Set(ref _ChildId, value);
                 this.SearchChildCommand.RaiseCanExecuteChanged();
-                this.SubmitEvaluationCommand.RaiseCanExecuteChanged();
+                this.SubmitLetterCommand.RaiseCanExecuteChanged();
             }
         }
 
@@ -71,7 +71,7 @@ namespace SCP.Client.ViewModel
             set
             {
                 Set(ref _ChildFirstName, value);
-                this.SubmitEvaluationCommand.RaiseCanExecuteChanged();
+                this.SubmitLetterCommand.RaiseCanExecuteChanged();
             }
         }
 
@@ -82,20 +82,32 @@ namespace SCP.Client.ViewModel
             set
             {
                 Set(ref _ChildLastName, value);
-                this.SubmitEvaluationCommand.RaiseCanExecuteChanged();
+                this.SubmitLetterCommand.RaiseCanExecuteChanged();
             }
         }
 
-        private int? _Goodness;
-        public int? Goodness
+        private string _GiftName;
+        public string GiftName
         {
-            get => _Goodness;
+            get => _GiftName;
             set
             {
-                Set(ref _Goodness, value);
-                this.SubmitEvaluationCommand.RaiseCanExecuteChanged();
+                Set(ref _GiftName, value);
+                this.SubmitLetterCommand.RaiseCanExecuteChanged();
             }
         }
+
+        private string _GiftBrand;
+        public string GiftBrand
+        {
+            get => _GiftBrand;
+            set
+            {
+                Set(ref _GiftBrand, value);
+                this.SubmitLetterCommand.RaiseCanExecuteChanged();
+            }
+        }
+
 
         private bool CanSearchChildExecute()
         {
@@ -119,7 +131,6 @@ namespace SCP.Client.ViewModel
                 {
                     this.ChildFirstName = apiResult.Item2?.ChildFirstName;
                     this.ChildLastName = apiResult.Item2?.ChildLastName;
-                    this.Goodness = apiResult.Item2?.Goodness;
                     userMessage = null;
                 }
                 else
@@ -152,38 +163,40 @@ namespace SCP.Client.ViewModel
             this.IsBusy = false;
         }
 
-        private bool CanSubmitEvaluationExecute()
+        private bool CanSubmitLetterExecute()
         {
             var result = !string.IsNullOrWhiteSpace(this.ChildId);
             result &= !string.IsNullOrWhiteSpace(this.ChildLastName);
             result &= !string.IsNullOrWhiteSpace(this.ChildFirstName);
-            result &= this.Goodness.HasValue &&
-                      (this.Goodness.Value >= 0 && this.Goodness.Value <= 10);
+            result &= !string.IsNullOrWhiteSpace(this.GiftBrand);
+            result &= !string.IsNullOrWhiteSpace(this.GiftName);
 
             return result;
         }
 
-        private async void SubmitEvaluationExecuteAsync()
+        private async void SubmitLetterExecuteAsync()
         {
             this.IsBusy = true;
 
             var userMessage = new UserMessage()
             {
-                Title = "Children Evaluation",
+                Title = "Send Letter",
             };
 
 
             try
             {
-                var result = await this.apiClient.SubmitEvaluationAsync(this.ChildId, this.ChildFirstName, this.ChildLastName, this.Goodness.Value);
+                var result = await this.apiClient.SubmitLetterAsync(this.ChildId, this.ChildFirstName, 
+                    this.ChildLastName, this.GiftBrand,this.GiftName);
                 if (result == ApiClientResult.OK)
                 {
                     this.ChildId = null;
                     this.ChildFirstName = null;
                     this.ChildLastName = null;
-                    this.Goodness = null;
+                    this.GiftBrand = null;
+                    this.GiftName = null;
                     userMessage.MessageType = UserMessage.Type.Info;
-                    userMessage.Message = "Child evaluation submitted!";
+                    userMessage.Message = "Letter submitted!";
                 }
                 else
                 {
@@ -194,7 +207,7 @@ namespace SCP.Client.ViewModel
                             userMessage.Message = "Child not found!";
                             break;
                         case ApiClientResult.GenericError:
-                            userMessage.Message = "An error occurs during child evaluation!";
+                            userMessage.Message = "An error occurs during sending letter!";
                             break;
                     }
                 }

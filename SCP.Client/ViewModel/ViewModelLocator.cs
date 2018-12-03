@@ -46,6 +46,7 @@ namespace SCP.Client.ViewModel
             SimpleIoc.Default.Register<MainViewModel>();
             SimpleIoc.Default.Register<ConfigurationViewModel>();
             SimpleIoc.Default.Register<EvaluateChildViewModel>();
+            SimpleIoc.Default.Register<SendLetterViewModel>();
 
             SimpleIoc.Default.Register<IApiClient, ApiClient>();
         }
@@ -57,7 +58,7 @@ namespace SCP.Client.ViewModel
                 return ServiceLocator.Current.GetInstance<MainViewModel>();
             }
         }
-        
+
         public static void Cleanup()
         {
             // TODO Clear the ViewModels

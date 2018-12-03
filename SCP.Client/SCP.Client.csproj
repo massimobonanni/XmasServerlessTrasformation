@@ -34,6 +34,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>SantaCloudPlatform.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="CommonServiceLocator, Version=2.0.2.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
       <HintPath>..\packages\CommonServiceLocator.2.0.2\lib\net47\CommonServiceLocator.dll</HintPath>
@@ -89,6 +92,7 @@
     <Compile Include="APIService\ApiClient.cs" />
     <Compile Include="APIService\IApiClient.cs" />
     <Compile Include="Messages\ErrorMessage.cs" />
+    <Compile Include="ViewModel\SendLetterViewModel.cs" />
     <Compile Include="ViewModel\EvaluateChildViewModel.cs" />
     <Compile Include="ViewModel\ConfigurationViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
@@ -133,6 +137,24 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\ElvesConsoleHeader.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="SantaCloudPlatform.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\SantaCloudPlatform.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\evaluationIcon.png" />
+    <Resource Include="Images\sendLetterIcon.png" />
+    <Resource Include="Images\configurationIcon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\searchIcon.png" />
+    <Resource Include="Images\sendIcon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

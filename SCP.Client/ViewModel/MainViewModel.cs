@@ -20,7 +20,8 @@ namespace SCP.Client.ViewModel
         /// <summary>
         /// Initializes a new instance of the MainViewModel class.
         /// </summary>
-        public MainViewModel(ConfigurationViewModel confViewModel, EvaluateChildViewModel evaluateChildViewModel)
+        public MainViewModel(ConfigurationViewModel confViewModel, EvaluateChildViewModel evaluateChildViewModel,
+            SendLetterViewModel sendLetterViewModel)
         {
             ////if (IsInDesignMode)
             ////{
@@ -35,7 +36,8 @@ namespace SCP.Client.ViewModel
             this.ConfigurationViewModel.PropertyChanged += ConfigurationViewModel_PropertyChanged;
 
             this.EvaluateChildViewModel = evaluateChildViewModel;
-            this.
+            this.SendLetterViewModel = sendLetterViewModel;
+
             SetApiReferenceToViewModels();
         }
 
@@ -49,6 +51,9 @@ namespace SCP.Client.ViewModel
         {
             this.EvaluateChildViewModel.ApiUrl = this.ConfigurationViewModel.ApiUrl;
             this.EvaluateChildViewModel.ApiKey = this.ConfigurationViewModel.ApiKey;
+
+            this.SendLetterViewModel.ApiUrl = this.ConfigurationViewModel.ApiUrl;
+            this.SendLetterViewModel.ApiKey = this.ConfigurationViewModel.ApiKey;
         }
 
         private ConfigurationViewModel _ConfigurationViewModel;
@@ -63,6 +68,13 @@ namespace SCP.Client.ViewModel
         {
             get => _EvaluateChildViewModel;
             set => Set(ref _EvaluateChildViewModel, value);
+        }
+
+        private SendLetterViewModel _SendLetterViewModel;
+        public SendLetterViewModel SendLetterViewModel
+        {
+            get => _SendLetterViewModel;
+            set => Set(ref _SendLetterViewModel, value);
         }
     }
 }

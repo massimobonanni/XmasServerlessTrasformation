@@ -16,6 +16,7 @@ namespace SCP.Client.APIService
 
         private const string RetrieveChildrenInfoFunctionUrl = "/api/Children";
         private const string EvaluateChildFunctionUrl = "/api/EvaluateChild";
+        private const string SendLetterFunctionUrl = "/api/LetterReceiver";
 
         public async Task<(ApiClientResult, ChildDto)> GetChildByIdAsync(string childId)
         {
@@ -118,6 +119,21 @@ namespace SCP.Client.APIService
                 ChildLastName = lastName
             };
             return this.PostObjectAsync(uri, evaluationDto);
+        }
+
+        public Task<ApiClientResult> SubmitLetterAsync(string childId, string childFirstName, string childLastName, string giftBrand, string giftName)
+        {
+            var baseUrl = $"{this.ApiUrl}{SendLetterFunctionUrl}";
+            var uri = CreateFunctionUrl(baseUrl, this.ApiKey);
+            var letterDto = new LetterDto()
+            {
+                ChildId = childId,
+                ChildFirstName = childFirstName,
+                ChildLastName = childLastName,
+                GiftBrand = giftBrand,
+                GiftName = giftName
+            };
+            return this.PostObjectAsync(uri, letterDto);
         }
     }
 }

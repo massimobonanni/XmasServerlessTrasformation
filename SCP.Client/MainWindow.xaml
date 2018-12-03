@@ -5,11 +5,27 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SCP.Client"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800"
-        DataContext="{Binding  MainViewModel, Source={StaticResource Locator}}">
+        Title="SCP Elves Console" Height="450" Width="800"
+        DataContext="{Binding  MainViewModel, Source={StaticResource Locator}}"
+        Icon="Images/SantaCloudPlatform.ico" >
     <Grid>
-        <TabControl >
-            <TabItem Header="Evaluate Child" DataContext="{Binding EvaluateChildViewModel}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Orientation="Horizontal">
+            <Image Height="100" Source="Images/ElvesConsoleHeader.png" ></Image>
+        </StackPanel>
+
+        <TabControl Grid.Row="1">
+            <TabItem DataContext="{Binding EvaluateChildViewModel}">
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal" Height="25">
+                        <Image Height="25" Source="Images/evaluationIcon.png"/>
+                        <Label VerticalAlignment="Center" >Evaluate Child</Label>
+                    </StackPanel>
+                </TabItem.Header>
                 <Grid >
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
@@ -21,25 +37,48 @@
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
-                    <Label Content="Child Id" Grid.Row="0" Grid.Column="0" Margin="10" HorizontalAlignment="Right"/>
-                    <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Path=ChildId, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Margin="10" Width="100" HorizontalAlignment="Left"/>
-                    <Button Content="Search" Grid.Row="0" Grid.Column="2" Margin="10" Command="{Binding SearchChildCommand}"/>
+                    <Image Height="60" Source="Images/evaluationIcon.png" Grid.Row="0" Grid.Column="0" Grid.RowSpan="5" Margin="0" VerticalAlignment="Top"/>
 
-                    <Label Content="First Name" Grid.Row="1" Grid.Column="0" Margin="10" HorizontalAlignment="Right"/>
-                    <TextBox Text="{Binding Path=ChildFirstName,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" Grid.Column="1" Margin="10"/>
+                    <Label Content="Child Id" Grid.Row="0" Grid.Column="1" Margin="10,5" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                    <TextBox Grid.Row="0" Grid.Column="2" Text="{Binding Path=ChildId, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" 
+                             Margin="10,5" Width="100" HorizontalAlignment="Left" VerticalAlignment="Center"/>
 
-                    <Label Content="Last Name" Grid.Row="2" Grid.Column="0" Margin="10" HorizontalAlignment="Right"/>
-                    <TextBox Text="{Binding Path=ChildLastName,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Grid.Row="2" Grid.Column="1" Margin="10"/>
+                    <Button Grid.Row="0" Grid.Column="3" Margin="10,5" Command="{Binding SearchChildCommand}" Grid.RowSpan="4" VerticalAlignment="Top">
+                        <Button.Content>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Height="25" Source="Images/searchIcon.png"/>
+                                <Label VerticalAlignment="Center" >Search</Label>
+                            </StackPanel>
+                        </Button.Content>
+                    </Button>
 
-                    <Label Content="Goodness" Grid.Row="3" Grid.Column="0" Margin="10" HorizontalAlignment="Right"/>
-                    <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding Path=Goodness, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Margin="10" Width="100" HorizontalAlignment="Left"/>
+                    <Label Content="First Name" Grid.Row="1" Grid.Column="1" Margin="10,5" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                    <TextBox Text="{Binding Path=ChildFirstName,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" 
+                             Grid.Row="1" Grid.Column="2" Margin="10,5" VerticalAlignment="Center"/>
 
-                    <Button Content="Submit" Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="3" Margin="10" Command="{Binding SubmitEvaluationCommand}"/>
+                    <Label Content="Last Name" Grid.Row="2" Grid.Column="1" Margin="10,5" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                    <TextBox Text="{Binding Path=ChildLastName,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" 
+                             Grid.Row="2" Grid.Column="2" Margin="10,5" VerticalAlignment="Center"/>
 
-                    <Grid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Grid.RowSpan="6"
+                    <Label Content="Goodness" Grid.Row="3" Grid.Column="1" Margin="10,5" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                    <TextBox Grid.Row="3" Grid.Column="2" Text="{Binding Path=Goodness, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" 
+                             Margin="10,5" Width="100" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+
+                    <Button Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="4" Margin="50,10" Command="{Binding SubmitEvaluationCommand}">
+                        <Button.Content>
+                            <StackPanel Orientation="Horizontal" Height="25">
+                                <Image Height="25" Source="Images/sendIcon.png"/>
+                                <Label VerticalAlignment="Center" >Submit</Label>
+                            </StackPanel>
+                        </Button.Content>
+                    </Button>
+
+
+                    <Grid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" Grid.RowSpan="6"
                                 Background="White" Opacity="0.5" Visibility="{Binding IsBusy,Converter={StaticResource BooleanToVisibility}}">
 
                         <ProgressBar  Width="100" Height="20"
@@ -47,7 +86,84 @@
                     </Grid>
                 </Grid>
             </TabItem>
-            <TabItem Header="Configuration" DataContext="{Binding ConfigurationViewModel}">
+            <TabItem  DataContext="{Binding SendLetterViewModel}">
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal" Height="25">
+                        <Image Height="25" Source="Images/sendLetterIcon.png"/>
+                        <Label VerticalAlignment="Center" >Send letter</Label>
+                    </StackPanel>
+                </TabItem.Header>
+                <Grid >
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Image Height="60" Source="Images/sendLetterIcon.png" Grid.Row="0" Grid.Column="0" Grid.RowSpan="6" Margin="0" VerticalAlignment="Top"/>
+
+                    <Label Content="Child Id" Grid.Row="0" Grid.Column="1" Margin="10,5" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                    <TextBox Grid.Row="0" Grid.Column="2" Text="{Binding Path=ChildId, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" 
+                             Margin="10,5" Width="100" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+
+                    <Button Grid.Row="0" Grid.Column="3" Margin="10,5" Command="{Binding SearchChildCommand}" Grid.RowSpan="5" VerticalAlignment="Top">
+                        <Button.Content>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Height="25" Source="Images/searchIcon.png"/>
+                                <Label VerticalAlignment="Center" >Search</Label>
+                            </StackPanel>
+                        </Button.Content>
+                    </Button>
+                    <Label Content="First Name" Grid.Row="1" Grid.Column="1" Margin="10,5" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                    <TextBox Text="{Binding Path=ChildFirstName,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" 
+                             Grid.Row="1" Grid.Column="2" Margin="10,5" VerticalAlignment="Center"/>
+
+                    <Label Content="Last Name" Grid.Row="2" Grid.Column="1" Margin="10,5" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                    <TextBox Text="{Binding Path=ChildLastName,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" 
+                             Grid.Row="2" Grid.Column="2" Margin="10,5" VerticalAlignment="Center"/>
+
+                    <Label Content="Gift name" Grid.Row="3" Grid.Column="1" Margin="10,5" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                    <TextBox Grid.Row="3" Grid.Column="2" Text="{Binding Path=GiftName, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" 
+                             Margin="10,5" Width="100" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+
+                    <Label Content="Gift brand" Grid.Row="4" Grid.Column="1" Margin="10,5" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                    <TextBox Grid.Row="4" Grid.Column="2" Text="{Binding Path=GiftBrand, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" 
+                             Margin="10,5" Width="100" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+
+                    <Button  Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="4" Margin="50,10" Command="{Binding SubmitLetterCommand}">
+                        <Button.Content>
+                            <StackPanel Orientation="Horizontal" Height="25">
+                                <Image Height="25" Source="Images/sendIcon.png"/>
+                                <Label VerticalAlignment="Center" >Submit</Label>
+                            </StackPanel>
+                        </Button.Content>
+                    </Button>
+
+                    <Grid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" Grid.RowSpan="7"
+                                Background="White" Opacity="0.5" Visibility="{Binding IsBusy,Converter={StaticResource BooleanToVisibility}}">
+
+                        <ProgressBar  Width="100" Height="20"
+                                     IsIndeterminate="{Binding IsBusy}" Visibility="{Binding IsBusy,Converter={StaticResource BooleanToVisibility}}"></ProgressBar>
+                    </Grid>
+
+                </Grid>
+            </TabItem>
+            <TabItem  DataContext="{Binding ConfigurationViewModel}">
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal" Height="25">
+                        <Image Height="25" Source="Images/configurationIcon.png"/>
+                        <Label VerticalAlignment="Center" >Configuration</Label>
+                    </StackPanel>
+                </TabItem.Header>
                 <Grid >
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
@@ -56,12 +172,16 @@
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
-                    <Label Content="Api url" Grid.Row="0" Grid.Column="0" Margin="10" HorizontalAlignment="Right"/>
-                    <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Path=ApiUrl, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Margin="10"/>
-                    <Label Content="Api key" Grid.Row="1" Grid.Column="0" Margin="10" HorizontalContentAlignment="Right" />
-                    <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Path=ApiKey, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Margin="10"/>
+                    <Image Height="60" Source="Images/configurationIcon.png" Grid.Row="0" Grid.Column="0" 
+                           Grid.RowSpan="3" Margin="0" VerticalAlignment="Top"/>
+
+                    <Label Content="Api url" Grid.Row="0" Grid.Column="1" Margin="10,5" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                    <TextBox Grid.Row="0" Grid.Column="2" Text="{Binding Path=ApiUrl, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Margin="10,5" VerticalAlignment="Center"/>
+                    <Label Content="Api key" Grid.Row="1" Grid.Column="1" Margin="10,5" HorizontalContentAlignment="Right"  VerticalAlignment="Center"/>
+                    <TextBox Grid.Row="1" Grid.Column="2" Text="{Binding Path=ApiKey, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Margin="10,5" VerticalAlignment="Center"/>
                 </Grid>
             </TabItem>
         </TabControl>
