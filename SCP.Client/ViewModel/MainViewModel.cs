@@ -35,7 +35,7 @@ namespace SCP.Client.ViewModel
             this.ConfigurationViewModel.PropertyChanged += ConfigurationViewModel_PropertyChanged;
 
             this.EvaluateChildViewModel = evaluateChildViewModel;
-
+            this.
             SetApiReferenceToViewModels();
         }
 

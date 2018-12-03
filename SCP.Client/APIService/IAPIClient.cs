@@ -7,6 +7,15 @@ namespace SCP.Client.APIService
     {
         string ApiUrl { get; set; }
         string ApiKey { get; set; }
-        Task<ChildDto> GetChildByIdAsync(string childId);
+        Task<(ApiClientResult,ChildDto)> GetChildByIdAsync(string childId);
+
+        Task<ApiClientResult> SubmitEvaluationAsync(string childId, int goodness);
+    }
+
+    public enum ApiClientResult
+    {
+        OK=0,
+        NotFound=10,
+        GenericError=999
     }
 }

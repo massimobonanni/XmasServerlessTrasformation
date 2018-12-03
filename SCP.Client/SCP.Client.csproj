@@ -88,6 +88,7 @@
     </Compile>
     <Compile Include="APIService\ApiClient.cs" />
     <Compile Include="APIService\IApiClient.cs" />
+    <Compile Include="Messages\ErrorMessage.cs" />
     <Compile Include="ViewModel\EvaluateChildViewModel.cs" />
     <Compile Include="ViewModel\ConfigurationViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
