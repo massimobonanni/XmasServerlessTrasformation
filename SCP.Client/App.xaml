@@ -6,6 +6,8 @@
   <Application.Resources>
     <ResourceDictionary>
       <vm:ViewModelLocator x:Key="Locator" d:IsDataSource="True" xmlns:vm="clr-namespace:SCP.Client.ViewModel" />
+
+       <BooleanToVisibilityConverter x:Key="BooleanToVisibility" />
     </ResourceDictionary>
   </Application.Resources>
 </Application>

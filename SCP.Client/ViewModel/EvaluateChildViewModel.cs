@@ -64,11 +64,18 @@ namespace SCP.Client.ViewModel
             }
         }
 
-        private ChildDto _Child;
-        public ChildDto Child
+        private string _ChildFirstName;
+        public string ChildFirstName
         {
-            get => _Child;
-            set => Set(ref _Child, value);
+            get => _ChildFirstName;
+            set => Set(ref _ChildFirstName, value);
+        }
+
+        private string _ChildLastName;
+        public string ChildLastName
+        {
+            get => _ChildLastName;
+            set => Set(ref _ChildLastName, value);
         }
 
         private int? _Goodness;
@@ -89,24 +96,27 @@ namespace SCP.Client.ViewModel
 
         private async void SearchChildExecuteAsync()
         {
-            this.ErrorMessage = null;
             this.IsBusy = true;
+
+            var userMessage = new UserMessage()
+            {
+                Title = "Search Children",
+            };
+
             try
             {
                 var apiResult = await this.apiClient.GetChildByIdAsync(this.ChildId);
 
                 if (apiResult.Item1 == ApiClientResult.OK)
                 {
-                    this.Child = apiResult.Item2;
-                    this.Goodness = this.Child.Goodness;
+                    this.ChildFirstName = apiResult.Item2?.ChildFirstName;
+                    this.ChildLastName = apiResult.Item2?.ChildLastName;
+                    this.Goodness = apiResult.Item2?.Goodness;
+                    userMessage = null;
                 }
                 else
                 {
-                    var userMessage = new UserMessage()
-                    {
-                        Title = "Search Children",
-                        MessageType = UserMessage.Type.Error
-                    };
+                    userMessage.MessageType = UserMessage.Type.Error;
 
                     switch (apiResult.Item1)
                     {
@@ -117,21 +127,28 @@ namespace SCP.Client.ViewModel
                             userMessage.Message = "An error occurs during search operation!";
                             break;
                     }
-
-                    this.MessengerInstance.Send(userMessage);
                 }
+
             }
             catch (Exception ex)
             {
-                this.Child = null;
-                this.ErrorMessage = ex.Message;
+                this.ChildLastName = null;
+                this.ChildFirstName = null;
+
+                userMessage.MessageType = UserMessage.Type.Error;
+                userMessage.Message = ex.Message;
             }
+
+            if (userMessage != null)
+                this.MessengerInstance.Send(userMessage);
             this.IsBusy = false;
         }
 
         private bool CanSubmitEvaluationExecute()
         {
             var result = !string.IsNullOrWhiteSpace(this.ChildId);
+            result &= !string.IsNullOrWhiteSpace(this.ChildLastName);
+            result &= !string.IsNullOrWhiteSpace(this.ChildFirstName);
             result &= this.Goodness.HasValue &&
                       (this.Goodness.Value >= 0 && this.Goodness.Value <= 10);
 
@@ -140,25 +157,29 @@ namespace SCP.Client.ViewModel
 
         private async void SubmitEvaluationExecuteAsync()
         {
-            this.ErrorMessage = null;
             this.IsBusy = true;
+
+            var userMessage = new UserMessage()
+            {
+                Title = "Children Evaluation",
+            };
+
+
             try
             {
-                var result = await this.apiClient.SubmitEvaluationAsync(this.ChildId, this.Goodness.Value);
-                if (result==ApiClientResult.OK)
+                var result = await this.apiClient.SubmitEvaluationAsync(this.ChildId, this.ChildFirstName, this.ChildLastName, this.Goodness.Value);
+                if (result == ApiClientResult.OK)
                 {
                     this.ChildId = null;
-                    this.Child = null;
+                    this.ChildFirstName = null;
+                    this.ChildLastName = null;
                     this.Goodness = null;
+                    userMessage.MessageType = UserMessage.Type.Info;
+                    userMessage.Message = "Child evaluation submitted!";
                 }
                 else
                 {
-                    var userMessage = new UserMessage()
-                    {
-                        Title = "Children Evaluation",
-                        MessageType = UserMessage.Type.Error
-                    };
-
+                    userMessage.MessageType = UserMessage.Type.Error;
                     switch (result)
                     {
                         case ApiClientResult.NotFound:
@@ -168,14 +189,15 @@ namespace SCP.Client.ViewModel
                             userMessage.Message = "An error occurs during child evaluation!";
                             break;
                     }
-
-                    this.MessengerInstance.Send(userMessage);
                 }
             }
             catch (Exception ex)
             {
-                this.ErrorMessage = ex.Message;
+                userMessage.Message = ex.Message;
+                userMessage.MessageType = UserMessage.Type.Error;
             }
+
+            this.MessengerInstance.Send(userMessage);
             this.IsBusy = false;
         }
     }

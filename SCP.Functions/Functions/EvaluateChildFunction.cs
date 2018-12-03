@@ -36,12 +36,14 @@ namespace SCP.Functions.Functions
                 if (childRow == null)
                 {
                     log.LogDebug($"{Constants.RetrieveChildActivityFunction} child {child} not found");
-                    return new NotFoundResult();
+                    childRow = new ChildRow(child.ChildId);
+                    childRow.FirstName = child.ChildFirstName;
+                    childRow.LastName = child.ChildLastName;
                 }
 
                 childRow.Goodness = child.Goodness;
 
-                await childTable.UpdateAsync(childRow);
+                await childTable.InsertOrReplaceAsync(childRow);
             }
             catch (Exception ex)
             {

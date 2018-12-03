@@ -17,13 +17,13 @@ namespace SCP.Client.APIService
         private const string RetrieveChildrenInfoFunctionUrl = "/api/Children";
         private const string EvaluateChildFunctionUrl = "/api/EvaluateChild";
 
-        public async Task<(ApiClientResult,ChildDto)> GetChildByIdAsync(string childId)
+        public async Task<(ApiClientResult, ChildDto)> GetChildByIdAsync(string childId)
         {
             var baseUrl = $"{this.ApiUrl}{RetrieveChildrenInfoFunctionUrl}";
             var uri = CreateFunctionUrl(baseUrl, this.ApiKey, $"idChild={childId}");
             var apiResult = await GetObjectsAsync<ChildDto>(uri);
-            
-            return (apiResult.Item1,apiResult.Item2?.FirstOrDefault());
+
+            return (apiResult.Item1, apiResult.Item2?.FirstOrDefault());
         }
 
         private string CreateFunctionUrl(string baseUrl, string key, string queryString = null)
@@ -106,11 +106,17 @@ namespace SCP.Client.APIService
             return result;
         }
 
-        public Task<ApiClientResult> SubmitEvaluationAsync(string childId, int goodness)
+        public Task<ApiClientResult> SubmitEvaluationAsync(string childId, string firstName, string lastName, int goodness)
         {
             var baseUrl = $"{this.ApiUrl}{EvaluateChildFunctionUrl}";
             var uri = CreateFunctionUrl(baseUrl, this.ApiKey);
-            var evaluationDto = new ChildEvaluationDto() { ChildId = childId, Goodness = goodness };
+            var evaluationDto = new ChildEvaluationDto()
+            {
+                ChildId = childId,
+                Goodness = goodness,
+                ChildFirstName = firstName,
+                ChildLastName = lastName
+            };
             return this.PostObjectAsync(uri, evaluationDto);
         }
     }

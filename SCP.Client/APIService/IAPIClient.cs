@@ -9,7 +9,7 @@ namespace SCP.Client.APIService
         string ApiKey { get; set; }
         Task<(ApiClientResult,ChildDto)> GetChildByIdAsync(string childId);
 
-        Task<ApiClientResult> SubmitEvaluationAsync(string childId, int goodness);
+        Task<ApiClientResult> SubmitEvaluationAsync(string childId, string firstName, string lastName,int goodness);
     }
 
     public enum ApiClientResult
