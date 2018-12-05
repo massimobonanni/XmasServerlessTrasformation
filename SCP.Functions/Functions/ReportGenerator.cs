@@ -13,8 +13,9 @@ namespace SCP.Functions.Functions
     public static class ReportGenerator
     {
         [FunctionName("ReportGenerator")]
+        [StorageAccount("StorageAccount")]
         public static async Task Run([TimerTrigger("%RepoterScheduleTriggerTime%")]TimerInfo myTimer,
-            [Table("giftTable", "Gifts", Connection = "StorageAccount")] CloudTable giftTable,
+            [Table(TableNames.GiftsTable, "Gifts")] CloudTable giftTable,
             IBinder reportBinder,
             ILogger log)
         {

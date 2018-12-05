@@ -21,7 +21,7 @@ namespace SCP.Functions.Functions
     {
         [FunctionName(Constants.RetrieveChildrenInfoFunction)]
         public static async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Function, "get", Route = "Children")]HttpRequest req,
-            [Table("childrenTable", "Children", Connection = "StorageAccount")] CloudTable childTable,
+            [Table(TableNames.ChildrenTable, "Children", Connection = "StorageAccount")] CloudTable childTable,
             ILogger log)
         {
             log.LogDebug($"[START FUNCTION] --> {Constants.RetrieveChildrenInfoFunction}");

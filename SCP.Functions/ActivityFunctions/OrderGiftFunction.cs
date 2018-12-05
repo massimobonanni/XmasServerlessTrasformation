@@ -14,7 +14,7 @@ namespace SCP.Functions.ActivityFunctions
     {
         [FunctionName(Constants.OrderGiftActivityFunction)]
         public static async Task<bool> OrderGift([ActivityTrigger] ChildDto child,
-            [Table("giftTable", "Gifts", Connection = "StorageAccount")] CloudTable giftTable,
+            [Table(TableNames.GiftsTable, "Gifts", Connection = "StorageAccount")] CloudTable giftTable,
             ILogger log)
         {
             log.LogInformation($"[START ACTIVITY] --> {Constants.OrderGiftActivityFunction} for {child.ChildId}");

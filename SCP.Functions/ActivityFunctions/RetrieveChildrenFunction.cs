@@ -17,7 +17,7 @@ namespace SCP.Functions.ActivityFunctions
     {
         [FunctionName(Constants.RetrieveChildActivityFunction)]
         public static async Task<ChildDto> RetrieveChild([ActivityTrigger] LetterDto letter,
-            [Table("childrenTable", "Children", Connection = "StorageAccount")] CloudTable childTable,
+            [Table(TableNames.ChildrenTable, "Children", Connection = "StorageAccount")] CloudTable childTable,
             ILogger log)
         {
             log.LogInformation($"[START ACTIVITY] --> {Constants.RetrieveChildActivityFunction} for childId={letter.ChildId}");

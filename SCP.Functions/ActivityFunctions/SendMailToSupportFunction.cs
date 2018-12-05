@@ -57,15 +57,27 @@ namespace SCP.Functions.ActivityFunctions
             strBuilder.AppendLine();
             strBuilder.AppendLine();
             strBuilder.AppendLine(
-                $"To approve the request: {eventReceiverUrl}instanceId={orchestratorId}&eventName={Constants.GiftApprovedEvent}");
+                $"To approve the request: {CreateEventReceiverUrl(eventReceiverUrl,orchestratorId,Constants.GiftApprovedEvent)}");
             strBuilder.AppendLine();
             strBuilder.AppendLine(
-                $"To decline the request: {eventReceiverUrl}instanceId={orchestratorId}&eventName={Constants.GiftApprovedEvent}");
+                $"To decline the request: {CreateEventReceiverUrl(eventReceiverUrl,orchestratorId,Constants.GiftRejectedEvent)}");
             strBuilder.AppendLine();
 
             message.AddContent("text/plain", strBuilder.ToString());
 
             return message;
+        }
+
+        private static string CreateEventReceiverUrl(string eventReceiverUrl,string orchestratorId,string eventName)
+        {
+            if (eventReceiverUrl.Contains("code"))
+            {
+                return $"{eventReceiverUrl}&instanceId={orchestratorId}&eventName={Constants.GiftApprovedEvent}";
+            }
+            else
+            {
+                return $"{eventReceiverUrl}?instanceId={orchestratorId}&eventName={Constants.GiftApprovedEvent}";
+            }
         }
     }
 }
